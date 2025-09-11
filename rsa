@@ -1,0 +1,30 @@
+import java.security.*;
+import javax.crypto.Cipher;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        // Generate key pair
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
+        kpg.initialize(2048);
+        KeyPair kp = kpg.generateKeyPair();
+
+        String msg = "HELLO";
+
+        // Encrypt
+        Cipher c = Cipher.getInstance("RSA");
+        c.init(Cipher.ENCRYPT_MODE, kp.getPublic());
+        byte[] enc = c.doFinal(msg.getBytes());
+        System.out.println("Original: " + msg);
+        System.out.println("Encrypted: " + Base64.getEncoder().encodeToString(enc));
+
+        // Decrypt
+        c.init(Cipher.DECRYPT_MODE, kp.getPrivate());
+        System.out.println("Decrypted: " + new String(c.doFinal(enc)));
+    }
+}
+
+
+Original: HELLO
+Encrypted: dNFD9BYe9IWj1D2BzKMcrFkWn6LO+ZaOsqhn0Gmmk6cR5qdMJedJ+y63Dgr7MzmFFUuBHhQP4cwEcyzfwoooEx+Fcfp6OcRbdYHfhqZa1eITzCXJYOOOpVcMaePq+za+7/Y9blccmweLvxdb9H9/LUt4lXoXhosD93HSMIB3q6UesmkTROMmgMXbhw8SHRzPLq8JhF99ZTmbOWnE1x/c74oyL+cXaFXQpi5Ln+TO1YgsoEEkoHCiQ+6S4c/VE//JF27n64Lj51JoTKE74C+tsfOVuY6F0xX/xU77AqV54cQItQrJg7eb3Or4dhaOvl86fnLsZCp8H2hRqW2qeLKwyQ==
+Decrypted: HELLO
