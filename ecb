@@ -1,0 +1,24 @@
+import javax.crypto.*;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+
+public class Main{
+    public static void main(String[] args) throws Exception {
+        String msg = "HELLO", keyStr = "1234567890123456"; // 16-byte key
+
+        SecretKey key = new SecretKeySpec(keyStr.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+
+        // Encrypt
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte[] enc = cipher.doFinal(msg.getBytes());
+        System.out.println("Encrypted: " + Base64.getEncoder().encodeToString(enc));
+
+        // Decrypt
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        System.out.println("Decrypted: " + new String(cipher.doFinal(enc)));
+    }
+}
+
+Encrypted: C0TJhqOGb9WrwL526FH8aQ==
+Decrypted: HELLO
