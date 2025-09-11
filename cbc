@@ -1,0 +1,28 @@
+import javax.crypto.*;
+import javax.crypto.spec.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter text: ");
+        String text = sc.nextLine();
+        System.out.print("Enter 16-char key: ");
+        SecretKey key = new SecretKeySpec(sc.nextLine().getBytes(), "AES");
+        IvParameterSpec iv = new IvParameterSpec(new byte[16]); // simple IV
+        Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        c.init(Cipher.ENCRYPT_MODE, key, iv);
+        String enc = Base64.getEncoder().encodeToString(c.doFinal(text.getBytes()));
+        c.init(Cipher.DECRYPT_MODE, key, iv);
+        String dec = new String(c.doFinal(Base64.getDecoder().decode(enc)));
+        System.out.println("Encrypted: " + enc);
+        System.out.println("Decrypted: " + dec);
+    }
+}
+
+OUTPUT:
+    Enter text to encrypt: HelloWorld
+    Enter 16-character key: 1234567890123456
+    Original    : HelloWorld
+    Encrypted   : VfqXvdGjzea0rgvXO56j5g==
+    Decrypted   : HelloWorld
