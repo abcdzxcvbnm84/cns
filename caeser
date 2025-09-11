@@ -1,0 +1,29 @@
+import java.util.*;
+public class Main {
+    static String cipher(String text, int shift) {
+        StringBuilder result = new StringBuilder();
+        for (char c : text.toCharArray()) {
+            if (Character.isLetter(c)) {
+                char base = Character.isUpperCase(c) ? 'A' : 'a';
+                result.append((char) ((c - base + shift + 26) % 26 + base));
+            } else result.append(c);
+        }
+        return result.toString();
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter text: ");
+        String text = sc.nextLine();
+        System.out.print("Enter shift: ");
+        int shift = sc.nextInt();
+        String encrypted = cipher(text, shift);
+        String decrypted = cipher(encrypted, -shift);
+        System.out.println("Encrypted: " + encrypted);
+        System.out.println("Decrypted: " + decrypted);
+    }
+}
+
+Enter text: Hello World
+Enter shift: 5
+Encrypted: Mjqqt Btwqi
+Decrypted: Hello World
