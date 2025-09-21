@@ -1,29 +1,25 @@
-import java.util.*;
-public class Main {
-    static String cipher(String text, int shift) {
-        StringBuilder result = new StringBuilder();
-        for (char c : text.toCharArray()) {
-            if (Character.isLetter(c)) {
-                char base = Character.isUpperCase(c) ? 'A' : 'a';
-                result.append((char) ((c - base + shift + 26) % 26 + base));
-            } else result.append(c);
-        }
-        return result.toString();
-    }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter text: ");
-        String text = sc.nextLine();
-        System.out.print("Enter shift: ");
-        int shift = sc.nextInt();
-        String encrypted = cipher(text, shift);
-        String decrypted = cipher(encrypted, -shift);
-        System.out.println("Encrypted: " + encrypted);
-        System.out.println("Decrypted: " + decrypted);
-    }
+public class CaesarCipher { 
+ public static void main(String[] args) 
+ { 
+ String text = "SAIPOOJA"; 
+ int shift = 3; 
+ String enc = ""; 
+ for (int i = 0; i < text.length(); i++) { 
+ char c = (char) (((text.charAt(i) - 'A' + shift) % 26) + 'A'); 
+ enc += c; 
+ } 
+ String dec = ""; 
+ for (int i = 0; i < enc.length(); i++) { 
+ char c = (char) (((enc.charAt(i) - 'A' - shift + 26) % 26) + 'A'); 
+ dec += c; 
+ } 
+ System.out.println("Original : " + text); 
+ System.out.println("Encrypted: " + enc); 
+ System.out.println("Decrypted: " + dec); 
+ } 
 }
 
-Enter text: Hello World
-Enter shift: 5
-Encrypted: Mjqqt Btwqi
-Decrypted: Hello World
+Original : SAIPOOJA
+Encrypted: VDLSRRMD
+Decrypted: SAIPOOJA
+
